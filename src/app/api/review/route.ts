@@ -4,12 +4,13 @@ import { Review } from "@/models/review.model";
 import { User } from "@/models/user.model";
 
 export async function POST(request: NextRequest) {
+  await connect();
   try {
     const reqBody = await request.json();
 
-    const { userId, movieId, title, poster } = reqBody;
+    const { userId, movieId, title, poster, content } = reqBody;
 
-    if (!(userId || movieId || title || poster)) {
+    if (!(userId || movieId || title || poster || content)) {
       return NextResponse.json({ message: "please provide all the details" });
     }
 
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newReview = new Review({ userId, movieId, title, poster });
+    const newReview = new Review({ userId, movieId, title, poster, content });
 
     const savedUser = await newReview.save();
 
@@ -36,4 +37,22 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     return NextResponse.json({ message: error.message });
   }
+}
+
+export async function GET(request: NextRequest) {
+  await connect();
+  const reqBody = await request.json();
+
+  const { movieId } = reqBody;
+
+  if (!movieId) {
+    return NextResponse.json({ message: "review not found" }, { status: 400 });
+  }
+
+  const newReview = await Review.findById(movieId).populate("userId", "name");
+
+  return NextResponse.json(
+    { message: "review fetched", newReview },
+    { status: 201 }
+  );
 }
