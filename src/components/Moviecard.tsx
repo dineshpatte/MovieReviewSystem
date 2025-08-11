@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Moviecard = ({ movie }: any) => {
   return (
-    <Link href={`/review/{movie.imdbId}`}>
+    <Link href={`/reviews/${movie.imdbId}`}>
       <div className="border rounded-md p-4 text-center shadow hover:shadow-lg cursor-pointer">
         <img
           src={movie.Poster}
