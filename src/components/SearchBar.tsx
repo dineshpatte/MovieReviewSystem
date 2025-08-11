@@ -10,11 +10,7 @@ interface searchBarProps {
   onSearch: () => void;
 }
 
-const SearchBar: React.FC<searchBarProps> = ({
-  movieName,
-  setMovieName,
-  onSearch,
-}: searchBarProps) => {
+const SearchBar = ({ movieName, setMovieName, onSearch }: searchBarProps) => {
   return (
     <div className="fixed top-0 left-0">
       <input
