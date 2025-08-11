@@ -24,7 +24,7 @@ const Page = () => {
       try {
         const res = await axios.get(`https://www.omdbapi.com/`, {
           params: {
-            i: id, // Use the dynamic ID from URL
+            i: id,
             apikey: process.env.NEXT_PUBLIC_OMDB_KEY,
             plot: "full",
           },
