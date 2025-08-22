@@ -7,10 +7,16 @@ import ReviewList from "@/components/reviewList";
 import Moviecard from "@/components/Moviecard";
 import axios from "axios";
 import { useRouter, useParams } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+interface tokenPayLoad {
+  id: String;
+  name: String;
+  email: String;
+}
 
 const Page = () => {
   const params = useParams();
-  const id = params?.id as string;
+  const movieId = params?.id as string;
   const router = useRouter();
 
   const [movie, setMovie] = useState<any>(null);
@@ -18,13 +24,13 @@ const Page = () => {
   const [movieName, setMovieName] = useState("");
 
   useEffect(() => {
-    if (!id) return;
+    if (!movieId) return;
 
     const fetchMovie = async () => {
       try {
         const res = await axios.get(`https://www.omdbapi.com/`, {
           params: {
-            i: id,
+            i: movieId,
             apikey: process.env.NEXT_PUBLIC_OMDB_KEY,
             plot: "full",
           },
@@ -37,8 +43,9 @@ const Page = () => {
 
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`/api/review/${id}`);
+        const res = await axios.get(`/api/review/${movieId}`);
         setReviews(res.data.reviews || []);
+        console.log(reviews);
       } catch (err) {
         console.error("Error fetching reviews:", err);
       }
@@ -46,7 +53,7 @@ const Page = () => {
 
     fetchMovie();
     fetchReviews();
-  }, [id]);
+  }, [movieId]);
 
   const onSearch = async () => {
     try {
@@ -89,10 +96,9 @@ const Page = () => {
 
       <div className="mt-8 w-full max-w-4xl">
         <ReviewForm
-          movieId={id}
+          movieId={movieId}
           title={movie.Title}
-          Poster={movie.Poster}
-          userId="123"
+          poster={movie.Poster}
         />
       </div>
     </div>

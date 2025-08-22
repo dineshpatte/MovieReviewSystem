@@ -28,6 +28,10 @@ const page = () => {
       setLoading(true);
       const response = await axios.post("/api/login", user);
       console.log("successfull", response.data);
+
+      localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
+
       setLoading(false);
       router.push("/");
     } catch (error: any) {

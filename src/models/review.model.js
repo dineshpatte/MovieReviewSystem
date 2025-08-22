@@ -3,7 +3,7 @@ import { ref } from "process";
 
 const reviewSchema = mongoose.Schema({
   userId: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
@@ -30,4 +30,4 @@ const reviewSchema = mongoose.Schema({
 });
 
 export const Review =
-  mongoose.models.Review || mongoose.model("review", reviewSchema);
+  mongoose.models.Review || mongoose.model("Review", reviewSchema);

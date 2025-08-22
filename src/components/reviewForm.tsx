@@ -5,27 +5,35 @@ import axios from "axios";
 interface reviewFormProps {
   movieId: string;
   title: string;
-  Poster: string;
-  userId: string;
+  poster: string;
 }
 
-const reviewForm = ({ movieId, title, Poster, userId }: reviewFormProps) => {
+const reviewForm = ({ movieId, title, poster }: reviewFormProps) => {
   const [review, setReview] = useState("");
-  const submitReview = async (e: { preventDefault: () => void }) => {
+  const submitReview = async (e: React.FormEvent) => {
+    const token: any = localStorage.getItem("token");
+
+    e.preventDefault();
     try {
-      e.preventDefault();
-      const response = await axios.post("/api/review", {
-        review,
-        movieId,
-        title,
-        Poster,
-        userId,
-      });
-      console.log(response.data.data);
+      const response = await axios.post(
+        `/api/review/${movieId}`,
+        {
+          title,
+          poster,
+          content: review,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Review submitted:", response.data);
     } catch (error: any) {
-      console.log(error.message);
+      console.error("Error submitting review:", error.message);
     }
   };
+
   return (
     <div>
       <label htmlFor="review form">Review</label>
