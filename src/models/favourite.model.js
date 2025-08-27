@@ -3,7 +3,7 @@ import { ref } from "process";
 
 const favouriteSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
@@ -20,8 +20,8 @@ const favouriteSchema = new mongoose.Schema({
     required: true,
   },
   year: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    required: true,
   },
 });
 

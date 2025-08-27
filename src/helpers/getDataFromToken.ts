@@ -10,7 +10,7 @@ export const getDataFromToken = (request: NextRequest) => {
   }
 
   try {
-    const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET!);
+    const decodedToken: any = jwt.verify(token, process.env.SECRET_TOKEN!);
 
     if (!decodedToken.id && !decodedToken._id) {
       throw new Error("Invalid token payload");

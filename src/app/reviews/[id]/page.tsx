@@ -57,7 +57,22 @@ const Page = () => {
 
   const addFavourites = async () => {
     try {
-    } catch (error) {}
+      const res = await axios.post("/api/favourite", {
+        movieId: movie.imdbID,
+        poster: movie.Poster,
+        title: movie.Title,
+        year: movie.Year,
+      });
+      console.log(res.data);
+
+      alert("Added to favourites successfully");
+    } catch (error: any) {
+      console.log(
+        "Error adding to favourites:",
+        error.response?.data || error.message
+      );
+      alert("Unsuccessful");
+    }
   };
 
   const onSearch = async () => {

@@ -9,12 +9,14 @@ export async function POST(request: NextRequest) {
   try {
     await connect();
     const { movieId, title, poster, year } = await request.json();
-    if (!(movieId || !title || poster || year)) {
+    if (!movieId || !title || !poster || !year) {
       return NextResponse.json(
         { message: "data insufficiency" },
-        { status: 500 }
+        { status: 400 }
       );
     }
+
+    console.log("Sending favourite data:", { movieId, title, poster, year });
 
     const token = request.cookies.get("token")?.value;
 
@@ -25,8 +27,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const decoded: any = jwt.verify(token, process.env.TOKEN_SECRET!);
+    const decoded: any = await jwt.verify(token, process.env.SECRET_TOKEN!);
     const userId = decoded.id;
+    console.log("Decoded token:", decoded);
+
+    console.log("userid", userId);
 
     const user = await User.findById(userId);
     if (!user) {
@@ -43,6 +48,7 @@ export async function POST(request: NextRequest) {
       year,
       title,
     });
+    console.log(newFavoutite);
 
     await newFavoutite.save();
 
