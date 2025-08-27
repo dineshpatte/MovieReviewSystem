@@ -1,0 +1,21 @@
+import { NextResponse, NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
+import { error } from "console";
+
+export const getDataFromToken = (request: NextRequest) => {
+  const token = request.cookies.get("token")?.value;
+
+  if (!token) {
+    throw new Error("Token is not found");
+  }
+
+  try {
+    const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET!);
+
+    if (!decodedToken._id) {
+      throw new Error("invalid token payload");
+    }
+  } catch (error: any) {
+    console.error(error.message);
+  }
+};
