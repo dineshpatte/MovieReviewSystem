@@ -55,6 +55,11 @@ const Page = () => {
     fetchReviews();
   }, [movieId]);
 
+  const addFavourites = async () => {
+    try {
+    } catch (error) {}
+  };
+
   const onSearch = async () => {
     try {
       if (!movieName.trim()) return;
@@ -100,6 +105,12 @@ const Page = () => {
           title={movie.Title}
           poster={movie.Poster}
         />
+      </div>
+      <div
+        className="bg-yellow-500 text-black font-bolf text-2xl px-2 py-2 border-2 rounded-2xl"
+        onClick={addFavourites}
+      >
+        Favourites
       </div>
     </div>
   );

@@ -12,9 +12,11 @@ export const getDataFromToken = (request: NextRequest) => {
   try {
     const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET!);
 
-    if (!decodedToken._id) {
-      throw new Error("invalid token payload");
+    if (!decodedToken.id && !decodedToken._id) {
+      throw new Error("Invalid token payload");
     }
+
+    return decodedToken.id || decodedToken._id;
   } catch (error: any) {
     console.error(error.message);
   }
