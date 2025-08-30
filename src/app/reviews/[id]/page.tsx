@@ -110,9 +110,9 @@ const Page = () => {
         <p className="mt-4">{movie.Plot}</p>
       </div>
 
-      <div className="mt-8 w-full max-w-4xl">
+      {/* <div className="mt-8 w-full max-w-4xl">
         <ReviewList reviews={reviews} />
-      </div>
+      </div> */}
 
       <div className="mt-8 w-full max-w-4xl">
         <ReviewForm

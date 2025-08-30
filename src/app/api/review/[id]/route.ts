@@ -1,25 +1,27 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbconfig/dbconfig";
 import { Review } from "@/models/review.model";
 import { User } from "@/models/user.model";
 import Jwt from "jsonwebtoken";
+import { getDataFromToken } from "@/helpers/getDataFromToken";
 
 export async function GET(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     await connect();
-    const movieId = (await params).id;
 
-    if (!movieId) {
+    const userId = getDataFromToken(request);
+
+    if (!userId) {
       return NextResponse.json(
-        { message: "Movie ID is required" },
+        { message: "user not found or user didnt login" },
         { status: 400 }
       );
     }
 
-    const reviews = await Review.find({ movieId }).populate("userId", "name");
+    const reviews = await Review.find({ userId }).populate("movieId", "name");
     return NextResponse.json({ reviews }, { status: 200 });
   } catch (error: any) {
     console.error("Error fetching reviews:", error);

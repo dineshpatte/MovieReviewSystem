@@ -38,31 +38,39 @@ const SearchBar = ({ movieName, setMovieName, onSearch }: searchBarProps) => {
     setSuggestions([]);
   };
   return (
-    <div className="fixed top-0 left-0">
-      <input
-        type="text"
-        value={movieName}
-        onChange={(e) => setMovieName(e.target.value)}
-        placeholder="Search movies..."
-        className="border px-3 py-2 rounded-md mr-2 w-64"
-      />
-      <button onClick={onSearch}>Search</button>
+    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 w-96">
+      {/* Search bar */}
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          value={movieName}
+          onChange={(e) => setMovieName(e.target.value)}
+          placeholder="Search movies..."
+          className="border px-4 py-2 rounded-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={onSearch}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Search
+        </button>
+      </div>
 
-      {suggestions.length > 0 &&
-        suggestions.map((movie): any => (
-          <ul
-            className="absolute bg-white text-black border rounded-md w-full mt-1 max-h-60 overflow-y-auto shadow"
-            onClick={onSearch}
-          >
+      {/* Suggestions dropdown */}
+      {suggestions.length > 0 && (
+        <ul className="absolute bg-white text-black border rounded-lg w-full mt-2 max-h-64 overflow-y-auto shadow-lg z-50">
+          {suggestions.map((movie) => (
             <li
               key={movie.imdbID}
               onClick={() => handleSelect(movie)}
-              className="px-3 py-2 hover:bg-gray-200 cursor-pointer"
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer transition"
             >
-              {movie.Title} ({movie.Year})
+              {movie.Title}{" "}
+              <span className="text-gray-500">({movie.Year})</span>
             </li>
-          </ul>
-        ))}
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
